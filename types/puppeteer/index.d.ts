@@ -508,7 +508,7 @@ export interface ElementHandle extends JSHandle {
 
 /** The class represents a context for JavaScript execution. */
 export interface ExecutionContext {
-  evaluate<T>(
+  evaluate<T = any>(
     fn: EvaluateFn<T>,
     ...args: any[]
   ): Promise<T>;
@@ -771,7 +771,7 @@ export interface FrameBase {
    * @param fn Function to be evaluated in browser context
    * @param args Arguments to pass to `fn`
    */
-  evaluate<T>(
+  evaluate<T = any>(
     fn: EvaluateFn<T>,
     ...args: any[]
   ): Promise<T>;
