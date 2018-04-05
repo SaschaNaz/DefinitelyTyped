@@ -259,7 +259,7 @@ export interface EmulateOptions {
   userAgent?: string;
 }
 
-export type EvaluateFn = string | ((...args: any[]) => any);
+export type EvaluateFn<T = any> = string | ((...args: any[]) => T);
 
 export type LoadEvent =
   | "load"
@@ -508,10 +508,10 @@ export interface ElementHandle extends JSHandle {
 
 /** The class represents a context for JavaScript execution. */
 export interface ExecutionContext {
-  evaluate(
-    fn: EvaluateFn,
+  evaluate<T>(
+    fn: EvaluateFn<T>,
     ...args: any[]
-  ): Promise<any>;
+  ): Promise<T>;
   evaluateHandle(
     fn: EvaluateFn,
     ...args: any[]
@@ -771,10 +771,10 @@ export interface FrameBase {
    * @param fn Function to be evaluated in browser context
    * @param args Arguments to pass to `fn`
    */
-  evaluate(
-    fn: EvaluateFn,
+  evaluate<T>(
+    fn: EvaluateFn<T>,
     ...args: any[]
-  ): Promise<any>;
+  ): Promise<T>;
 
   /**
    * Sets the page content.
