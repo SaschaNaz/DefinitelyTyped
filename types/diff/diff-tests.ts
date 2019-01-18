@@ -86,12 +86,13 @@ function verifyPatchMethods(oldStr: string, newStr: string, uniDiff: jsdiff.IUni
         console.error("Patch did not match uniDiff");
     }
 }
-function verifyApplyMethods(oldStr: string, newStr: string, uniDiff: jsdiff.IUniDiff) {
+function verifyApplyMethods(oldStr: string, newStr: string, uniDiffStr: string) {
+    const uniDiff = jsdiff.parsePatch(uniDiffStr)[0];
     const verifyApply = [
         jsdiff.applyPatch(oldStr, uniDiff),
         jsdiff.applyPatch(oldStr, [uniDiff])
     ];
-    jsdiff.applyPatches([uniDiff], {
+    const options = {
         loadFile: (index: number, callback: (err: Error, data: string) => void) => {
             callback(undefined, one);
         },
@@ -109,7 +110,9 @@ function verifyApplyMethods(oldStr: string, newStr: string, uniDiff: jsdiff.IUni
                 }
             });
         }
-    });
+    };
+    jsdiff.applyPatches([uniDiff], options);
+    jsdiff.applyPatches(uniDiffStr, options);
 }
 
 const uniDiffPatch = jsdiff.structuredPatch("oldFile.ts", "newFile.ts", one, other,
@@ -118,5 +121,4 @@ verifyPatchMethods(one, other, uniDiffPatch);
 
 const uniDiffStr = jsdiff.createPatch("file.ts", one, other, "old", "new",
     { context: 1 });
-const uniDiffApply = jsdiff.parsePatch(uniDiffStr)[0];
-verifyApplyMethods(one, other, uniDiffApply);
+verifyApplyMethods(one, other, uniDiffStr);

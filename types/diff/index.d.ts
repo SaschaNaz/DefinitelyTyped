@@ -103,7 +103,7 @@ declare namespace JsDiff {
 
     function applyPatch(oldStr: string, uniDiff: string | IUniDiff | IUniDiff[]): string;
 
-    function applyPatches(uniDiff: IUniDiff[], options: {
+    function applyPatches(uniDiff: string | IUniDiff[], options: {
         loadFile(index: number, callback: (err: Error, data: string) => void): void,
         patched(index: number, content: string): void,
         complete(err?: Error): void
